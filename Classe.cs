@@ -63,16 +63,17 @@ namespace HNI_TPmoyennes
         }
         public float MoyenneGeneral()
         {
+            var matieres = Eleves.SelectMany(e => e.Notes.Select(n => n.matiere)).Distinct();
             float moyenneG = 0;
-            int count = Eleves.Count;
-
-            foreach (var eleve in Eleves)
-            {
-                moyenneG += eleve.MoyenneGeneral();
-            }
+            int count = matieres.Count();
 
             if (count == 0)
                 return 0;
+
+            foreach (var matiere in matieres)
+            {
+                moyenneG += MoyenneMatiere(matiere);
+            }
 
             return (float)(Math.Truncate((moyenneG / count) * 100) / 100);
         }

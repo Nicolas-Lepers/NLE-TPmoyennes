@@ -7,7 +7,7 @@ namespace HNI_TPmoyennes
         public string Prenom { get; set; } = string.Empty;
         public string Nom { get; set; } = string.Empty;
 
-        private List<Note> _notes = new List<Note>();
+        public List<Note> Notes { get; private set; } = new List<Note>();
 
         public Eleve(string firstName, string lastName)
         {
@@ -18,13 +18,13 @@ namespace HNI_TPmoyennes
         public void AjouterNote(Note note)
         {
             //il est possible d'avoir plusieurs fois la même note dans la même matière
-            if (/*_notes.Contains(note)||*/ _notes.Count >= 200)
+            if (/*_notes.Contains(note)||*/ Notes.Count >= 200)
             {
                 Console.WriteLine("L'élève ne peux pas recevoir plus de notes.");
                 return;
             }
 
-            _notes.Add(note);
+            Notes.Add(note);
         }
 
         public float MoyenneMatiere(int i)
@@ -32,7 +32,7 @@ namespace HNI_TPmoyennes
             float moyenne = 0;
             int count = 0;
 
-            foreach (var note in _notes)
+            foreach (var note in Notes)
             {
                 if (note.matiere == i)
                 {
@@ -49,7 +49,7 @@ namespace HNI_TPmoyennes
 
         public float MoyenneGeneral()
         {
-            var matieres = _notes.Select(n => n.matiere).Distinct();
+            var matieres = Notes.Select(n => n.matiere).Distinct();
             float moyenneG = 0;
             int count = matieres.Count();
 
