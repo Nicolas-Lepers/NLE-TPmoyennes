@@ -20,16 +20,28 @@ namespace HNI_TPmoyennes
 
         public void AjouterEleve(string firstName, string lastName)
         {
+            if (Eleves.Count >= 30)
+            {
+                Console.WriteLine("Trop d'élèves.");
+                return;
+            }
+
             var eleve = new Eleve(firstName, lastName);
             if (Eleves.Contains(eleve))
+            {
+                Console.WriteLine("L'élève est déjà dans la classe.");
                 return;
+            }
 
             Eleves.Add(eleve);
         }
         public void AjouterMatiere(string matiere)
         {
-            if(Matieres.Contains(matiere)) 
+            if(Matieres.Contains(matiere) || Matieres.Count >= 10)
+            {
+                Console.WriteLine("Trop de matières, ou matière déjà enregistrée.");
                 return;
+            }
 
             Matieres.Add(matiere);
         }
@@ -51,18 +63,18 @@ namespace HNI_TPmoyennes
         }
         public float MoyenneGeneral()
         {
-            float moyenne = 0;
+            float moyenneG = 0;
             int count = Eleves.Count;
 
             foreach (var eleve in Eleves)
             {
-                moyenne += eleve.MoyenneGeneral();
+                moyenneG += eleve.MoyenneGeneral();
             }
 
             if (count == 0)
                 return 0;
 
-            return (float)(Math.Truncate((moyenne / count) * 100) / 100);
+            return (float)(Math.Truncate((moyenneG / count) * 100) / 100);
         }
 
     }

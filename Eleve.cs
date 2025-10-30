@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HNI_TPmoyennes
 {
     internal class Eleve
@@ -22,8 +17,12 @@ namespace HNI_TPmoyennes
 
         public void AjouterNote(Note note)
         {
-            if (_notes.Contains(note))
+            //il est possible d'avoir plusieurs fois la même note dans la même matière
+            if (/*_notes.Contains(note)||*/ _notes.Count >= 200)
+            {
+                Console.WriteLine("L'élève ne peux pas recevoir plus de notes.");
                 return;
+            }
 
             _notes.Add(note);
         }
@@ -50,18 +49,19 @@ namespace HNI_TPmoyennes
 
         public float MoyenneGeneral()
         {
-            float moyenne = 0;
-            int count = _notes.Count;
+            var matieres = _notes.Select(n => n.matiere).Distinct();
+            float moyenneG = 0;
+            int count = matieres.Count();
 
-            foreach (var note in _notes)
+            foreach (var matiere in matieres)
             {
-                moyenne += note.note;
+                moyenneG += MoyenneMatiere(matiere);
             }
 
             if (count == 0)
                 return 0;
 
-            return (float)(Math.Truncate((moyenne / count) * 100) / 100);
+            return (float)(Math.Truncate((moyenneG / count) * 100) / 100);
         }
 
     }
